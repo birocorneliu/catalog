@@ -1,21 +1,12 @@
 
-i<head>
+{% block body_scripts %}
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="//apis.google.com/js/platform.js?onload=start"> </script>
 
-  <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
-
-<script src="//apis.google.com/js/platform.js?onload=start"> </script>
-
-<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+{% endblock %}
 
 
-</head>
-
-
-<body>
-
-
+{% block body %}
 <!-- GOOGLE PLUS SIGN IN-->
 
 
@@ -42,7 +33,7 @@ function signInCallback(authResult) {
 
     $.ajax({
       type: 'POST',
-      url: '/gconnect?state={{STATE}}',
+      url: '/gconnect?state={{sess.stage}}',
       processData: false,
       data: authResult['code'],
       contentType: 'application/octet-stream; charset=utf-8',
@@ -75,7 +66,7 @@ function signInCallback(authResult) {
 <script>
   window.fbAsyncInit = function() {
   FB.init({
-    appId      : '846524132078825',
+    appId      : '860829713952701',
     cookie     : true,  // enable cookies to allow the server to access
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -103,7 +94,7 @@ function signInCallback(authResult) {
       console.log('Successful login for: ' + response.name);
      $.ajax({
       type: 'POST',
-      url: '/fbconnect?state={{STATE}}',
+      url: '/fbconnect?state={{sess.state}}',
       processData: false,
       data: access_token,
       contentType: 'application/octet-stream; charset=utf-8',
@@ -134,7 +125,7 @@ function signInCallback(authResult) {
 
 
           <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-<a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+    <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
 
 </fb:login-button>
 
@@ -142,6 +133,4 @@ function signInCallback(authResult) {
         </button>
 <!--END FACEBOOK SIGN IN -->
 
-  </body>
-
-  </html>
+  {% endblock %}
