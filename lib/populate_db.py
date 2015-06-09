@@ -18,4 +18,7 @@ for categ in dummy_items:
                             user_id=user.id).create()
     for item in categ["items"]:
         if not Item.findone(name=item["name"], category_id=category.id):
-            Item(user_id=user.id, category_id=category.id, **item).create()
+            Item(user_id=user.id,
+                 category_id=category.id,
+                 category=category,
+                 **item).create()

@@ -10,7 +10,7 @@ sys.path.append(PATH)
 
 #Start app engine
 app = Flask(__name__)
-
+app.secret_key = "Super secret KEY"
 
 #Add rules to the app
 for methods, path, func in ROUTES:
