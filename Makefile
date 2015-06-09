@@ -5,6 +5,6 @@ server:
 db:
 	python lib/database_setup.py
 fulldb:
-	python lib/populate_db.py && python lib/lotsofmenus.py
+	python lib/populate_db.py && python lib/populate_db.py
 
 .PHONY: install server db fulldb

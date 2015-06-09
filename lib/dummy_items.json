@@ -1,0 +1,60 @@
+[
+    {
+        "name": "Soccer",
+        "picture": "",
+        "items": [
+            {
+                "name": "American Youth Soccer Organization",
+                "picture": "soccer_ayso.png",
+                "description": "The American Youth Soccer Organization (AYSO) is one of the two main national organizations in youth soccer in the United States for children aged 4 through 19. Over 50 years ago, AYSO was established as a non-profit soccer organization in West Torrance (a suburb of Los Angeles, California) at Jefferson Middle School in 1964 with nine teams. Today the organization claims membership of over 50,000 teams, with over 630,000 participants."
+            },
+            {
+                "name": "Fun Fair Positive Soccer",
+                "picture": "soccer_ffps.png",
+                "description": "Fun Fair Positive Soccer (FFPS) is a 501(c)3 non-profit organization located in Houston, Texas. FFPS promotes non-competitive soccer in a fun, safe and positive environment .[1] To ensure this, FFPS was designed with special rules and policies to enable equal play for every child in all positions. Founded in 1986 in Katy, Texas, by Jack Hendrie, FFPS believes that every child should be accepted and included without a requirement to try out or perform."
+            },
+            {
+                "name": "Super-20 League",
+                "picture": "soccer_20.png",
+                "description": "The United Soccer Leagues Super-20 League is an American-Canadian soccer league for players 17 to 20 years of age. Introduced in 2006 it took the place of the U-19 age bracket in the Super Y-League."
+            },
+            {
+                "name": "Super Soccer Stars",
+                "picture": "soccer_stars.jpg",
+                "description": "Super Soccer Stars is an American youth soccer development program active in the metropolitan areas of New York City, Los Angeles, Boston, Miami, and Chicago. The organization was founded in 2000 by Argentine native Gustavo Szulansky. English footballer Mark Wilson, formerly of Manchester United, is the program's director of coaches."
+            }
+        ]
+    },
+    {
+        "name": "Figure skating",
+        "picture": "",
+        "items": [
+            {
+                "name": "Kiss and cry",
+                "picture": "skating_kiss.jpg",
+                "description": "The kiss and cry is the area in an ice rink where figure skaters wait for their marks to be announced after their performances during a figure skating competition.[1] It is so named because the skaters and coaches often kiss to celebrate after a good performance, or cry after a poor one. The area is usually located in the corner or end of the rink and is furnished with a bench or chairs for the skaters and coaches and monitors to display the competition results. It is often elaborately decorated with flowers or some other backdrop for television shots and photos of the skaters as they react to their performance and scores."
+            },
+            {
+                "name": "Original dance",
+                "picture": "skating_original.jpg",
+                "description": "The original dance (OD) was a segment of an ice dancing competition. It was usually the second of three programs, sandwiched between the compulsory dances and the free dance. Until 1990, it was known as the original set pattern dance (OSPD). Following the 2009-10 season, the original dance was discontinued and replaced by the short dance (SD)."
+            },
+            {
+                "name": "Pair skating",
+                "picture": "skating_pair.jpg",
+                "description": "Pair skating is a figure skating discipline. International Skating Union (ISU) regulations describe pair teams as consisting of one lady and one man. The sport is distinguished from ice dancing and single skating by elements unique to pair skating, including overhead lifts, twist lifts, death spirals, and throw jumps. The teams also perform the elements of single skating in unison. Pair skating requires similar technique and timing on all elements of the performance, as well as practice and trust between the partners. The aim is to create an impression of two skating as one. Serious skating accidents are most common in the pair discipline."
+            }
+        ]
+    },
+    {
+        "name": "Basketball",
+        "picture": "",
+        "items": [
+            {
+                "name": "Bonus",
+                "picture": "basketball_bonus.jpg",
+                "description": "In the sport of basketball, the bonus situation (also called the penalty situation) occurs when one team accumulates a requisite number of fouls, which number varies depending on the level of play. When one team has committed the requisite number of fouls, each subsequent foul results in the opposing team's taking free throws regardless of the type of foul committed (i.e., whether or not the foul was a shooting foul).[1] Teams under the limit are commonly referred to as having fouls to give, and thus they can try to disrupt their opponents without being penalized free throws."
+            }
+        ]
+    }
+]
