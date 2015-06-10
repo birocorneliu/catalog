@@ -4,12 +4,12 @@
 <div>
     <p><h2>{{ data.action }} Item</h2></p>
         <p>
-            <form id="myform" method="post" action="#">
+            <form id="myform" enctype="multipart/form-data" method="post" action="#">
               Name: <br/>
-              <input type="text" name="name" size=30 {% if data.name %}value="{{ data.name }}"{% endif %}><br/>
+              <input type="text" name="name" size=30 {% if data.name %}value="{{ data.name }}"{% endif %}><br/><br/>
               {% if data.type == "item" %}
                 Description: <br/>
-                <textarea name="description" rows=4 cols=60>{% if data.description %}{{ data.description }}{% endif %}</textarea><br/>
+                <textarea name="description" rows=4 cols=60>{% if data.description %}{{ data.description }}{% endif %}</textarea><br/><br/>
                 Category: <br/>
                 <select name="category_id">
                   {% for category in data.categories %}
@@ -18,6 +18,9 @@
                 </select><br/>
               {% endif %}
               <br/>
+              Image: <br/>
+              <input type="file" name="pic" accept="image/*"><br/>
+              <br/><br/>
               <a href="/">Cancel and go back</a> | <a onclick="document.getElementById('myform').submit();">Confirm</a>
             </form>
   </p>

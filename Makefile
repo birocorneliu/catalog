@@ -1,4 +1,4 @@
-install:
+configure:
 	pip install -r requirements.txt
 server:
 	python server.py
@@ -7,4 +7,4 @@ db:
 fulldb:
 	python lib/populate_db.py && python lib/populate_db.py
 
-.PHONY: install server db fulldb
+.PHONY: configure server db fulldb

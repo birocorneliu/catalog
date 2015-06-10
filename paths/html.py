@@ -8,7 +8,7 @@ from lib import session
 
 def home():
     left_content = [item.to_dict() for item in Category.all()]
-    right_content = [item.to_dict() for item in Item.all(10)]
+    right_content = [item.to_full_dict() for item in Item.all(10)]
     data = {
         "right_title": "Last items",
         "left_content": left_content,
@@ -21,7 +21,7 @@ def home():
 def category(category_id):
     category = Category(id=category_id).get()
     left_content = [item.to_dict() for item in Category.all()]
-    right_content = [item.to_big_dict() for item in Item.find(category_id=category_id)]
+    right_content = [item.to_dict() for item in Item.find(category_id=category_id)]
     data = {
         "category": category.to_dict(),
         "right_title": "{} Items ({} items)".format(category.name, len(right_content)),
@@ -47,6 +47,7 @@ def create_item(user):
                     category_id=category_id,
                     category=Category(id=category_id).get()
                     ).create()
+        item.add_picture(request)
         return redirect(url_for("item", item_id=item.id))
     else:
         data = {
@@ -68,6 +69,7 @@ def edit_item(user, item_id):
         item.category_id=category_id
         item.category=Category(id=category_id).get()
         item.save()
+        item.add_picture(request)
         return redirect(url_for("item", item_id=item_id))
     else:
         data=item.to_dict()
@@ -97,6 +99,7 @@ def create_category(user):
         category = Category(name=request.form["name"],
                             user_id=login_session["user_id"]
                             ).create()
+        category.add_picture(request)
         return redirect(url_for("category", category_id=category.id))
     else:
         data = {
@@ -113,6 +116,7 @@ def edit_category(user, category_id):
     if request.method == 'POST':
         category.name=request.form["name"]
         category.save()
+        category.add_picture(request)
         return redirect(url_for("category", category_id=category_id))
     else:
         data=category.to_dict()

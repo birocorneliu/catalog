@@ -23,3 +23,17 @@ class AuthenticationRequired(APPException):
     status_code = 403
     message = "Authentication needed"
 
+
+class NotFound(APPException):
+    status_code = 404
+    message = "Page not Found"
+
+
+class EntityNotFound(APPException):
+
+    def __init__(self, entity):
+        self.entity = entity
+
+    @property
+    def message(self):
+        return "{} not found".format(self.entity)
