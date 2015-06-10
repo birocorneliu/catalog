@@ -21,7 +21,7 @@ def home():
 def category(category_id):
     category = Category(id=category_id).get()
     left_content = [item.to_dict() for item in Category.all()]
-    right_content = [item.to_dict() for item in Item.find(category_id=category_id)]
+    right_content = [item.to_big_dict() for item in Item.find(category_id=category_id)]
     data = {
         "category": category.to_dict(),
         "right_title": "{} Items ({} items)".format(category.name, len(right_content)),

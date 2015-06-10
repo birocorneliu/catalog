@@ -77,7 +77,7 @@ class Item(Base, DBHelper):
     user_id = Column(Integer, ForeignKey("user.id"))
     category = relationship(Category)
 
-    def to_dict(self):
+    def to_big_dict(self):
         attributes = [attr for attr in self.__dict__.keys() if attr[0] != "_"]
         response = {key: getattr(self, key) for key in attributes}
         response["category"] = self.category.to_dict()

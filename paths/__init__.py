@@ -1,6 +1,16 @@
-from . import html#, api
+from . import html, api
 
 ROUTES = (
+    #API urls
+    (["GET"], "/catalog.json", api.catalog_json),
+    (["GET"], "/catalog.xml", api.catalog_xml),
+    (["GET"], "/categories.json", api.categories_json),
+    (["GET"], "/categories.xml", api.categories_xml),
+    (["GET"], "/items.json", api.items_json),
+    (["GET"], "/items.xml", api.items_xml),
+
+
+    #HTML urls
     #session urls
     (["GET"], "/logout", html.logout),
     (["POST"], "/gconnect", html.gconnect),
