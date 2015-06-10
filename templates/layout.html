@@ -7,19 +7,27 @@
   </head>
   <body>
 
-    <div id="header">
-      <div id="title">Catalog App</div>
+    <div id="header" class="row">
+      <div id="title" class="col-5"><a href="/">Catalog App</a></div>
       <div id="menu">
-        {% if not sess.user %}
+        <div id="profile-data">
+          {% if not sess.user %}
             {% include 'login.html' %}
-        {% else %}
-            logged in as <b>{{ sess.user.name }}</b>
-        {% endif %}
+          {% else %}
+            <div id="profile_name"><b>{{ sess.user.name }}</b></div>
+            <a id="logout" href="/logout">log<b>out</b></a>
+            {% if sess.user.picture %}
+              </div>
+              <div id="profile-pic"> <img src="{{ sess.user.picture }}">
+            {% endif %}
+          {% endif %}
+        </div>
       </div>
     </div>
 
-    <div id="body">
+    <div class="row" id="body">
       {% block body %}{% endblock %}
     </div>
+    <br><br>{{ sess }}
   </body>
 </html>

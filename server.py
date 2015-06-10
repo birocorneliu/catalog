@@ -1,8 +1,12 @@
 import os
 import sys
 from flask import Flask, jsonify
+from flask import session as login_session
+
 from paths import ROUTES
+from lib.session import state_generator
 from lib.exceptions import APPException
+
 
 #Add current path to sys paths
 PATH = os.path.realpath('.')
@@ -26,15 +30,16 @@ def exception_handler(error):
     response.status_code = error.status_code
     return response
 
-#
-from flask import session as login_session
-from lib.session import state_generator
+
+#Send session with every request
 @app.context_processor
 def inject_user():
     state = login_session.get("state")
     if not login_session.get("state") :
         login_session["state"] = state_generator()
     return dict(sess=dict(login_session))
+
+
 
 #Start server
 if __name__ == '__main__':

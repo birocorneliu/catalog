@@ -1,13 +1,18 @@
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, Column, ForeignKey, Integer, String
+from sqlalchemy import create_engine, Column, ForeignKey, Integer, String, desc
 
 Base = declarative_base()
 class DBHelper(object):
 
     @classmethod
-    def all(cls):
-        return db_session.query(cls().__class__).all()
+    def all(cls, limit=None):
+        self = cls()
+        if limit is None:
+            return db_session.query(self.__class__).all()
+        else:
+            return db_session.query(self.__class__
+                    ).order_by(desc("id")).all()[:limit]
 
     @classmethod
     def find(cls, **kwargs):
@@ -29,6 +34,9 @@ class DBHelper(object):
         db_session.add(self)
         db_session.commit()
         return self
+
+    def save(self):
+        return self.create()
 
     def delete(self):
         db_session.delete(self)
@@ -69,6 +77,11 @@ class Item(Base, DBHelper):
     user_id = Column(Integer, ForeignKey("user.id"))
     category = relationship(Category)
 
+    def to_dict(self):
+        attributes = [attr for attr in self.__dict__.keys() if attr[0] != "_"]
+        response = {key: getattr(self, key) for key in attributes}
+        response["category"] = self.category.to_dict()
+        return response
 
 engine = create_engine("sqlite:///catalog.db")
 Base.metadata.create_all(engine)

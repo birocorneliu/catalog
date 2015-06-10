@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <div>
+      <p><h2>{{ data.name }}</h2></p>
+    <p>{{ data.description }}</p>
+    {% if data.user_id == sess.user_id %}
+    <p><a href="/item/{{ data.id }}/edit/">Edit</a> | <a href="/item/{{ data.id }}/delete/">Delete</a></p>
+    {% endif %}
+  </div>
+
+{% endblock %}
+
