@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div class="col-4" id="body-left">
+  <div class="col-3" id="body-left">
     <h2>Category</h2>
     {% for item in  data.left_content %}
       <p><a href="/category/{{ item.id }}">{{ item.name }}</a></p>
@@ -9,7 +9,7 @@
     <p><hr></p>
     <p><a href="/category/create/">Add category</a></p>
   </div>
-  <div class="col-8" id="body-right">
+  <div class="col-{% if data.category and data.category.picture %}6{% else %}9{% endif %}" id="body-right">
     <div style="display: -webkit-box;">
         <h2>{{ data.right_title }}</h2>
         {% if not data.with_parrent and sess.user_id == data.category.user_id %}
@@ -25,5 +25,8 @@
     <p><hr></p>
     <p><a href="/item/create/">Add item</a></p>
   </div>
+  {% if data.category and data.category.picture %}
+  <div class="col-3"><img id="view_pic" src="/{{data.category.picture}}">
+  {% endif %}
 
 {% endblock %}

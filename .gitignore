@@ -1,3 +1,4 @@
 *.pyc
 *.db
 static/uploaded/
+config/*.json

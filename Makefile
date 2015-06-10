@@ -1,5 +1,5 @@
 configure:
-	pip install -r requirements.txt
+	pip install -r config/requirements.txt
 server:
 	python server.py
 db:

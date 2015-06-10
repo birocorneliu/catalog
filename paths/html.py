@@ -17,6 +17,10 @@ def home():
     }
     return render_template("listing.html", data=data)
 
+def error():
+    message = request.values.get("message", "An error has occured")
+    code = request.values.get("code", 500)
+    return render_template("error.html", message=message, code=code)
 
 def category(category_id):
     category = Category(id=category_id).get()
@@ -130,11 +134,12 @@ def delete_category(user, category_id):
     category = Category(id=category_id).get()
     session.ensure_permission(user, category)
     if request.method == 'POST':
+        items = [item.delete() for item in Item.find(category_id=category_id)]
         category.delete()
         return redirect(url_for("home"))
     else:
         data=category.to_dict()
-        data["type"] = "category"
+        data["type"] = "category and all sub-items"
         return render_template("delete.html", data=data)
 
 

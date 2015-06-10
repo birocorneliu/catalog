@@ -17,6 +17,7 @@ ROUTES = (
     (["POST"], "/fbconnect", html.fbconnect),
 
     (["GET"], "/", html.home),
+    (["GET"], "/error", html.error),
     #category urls
     (["GET"], "/category/<int:category_id>/", html.category),
     (["GET", "POST"], "/category/create/", html.create_category),

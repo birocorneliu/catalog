@@ -1,7 +1,8 @@
-import httplib2
+import os
 import json
 import random
 import string
+import httplib2
 import requests
 import functools
 from flask import make_response
@@ -11,14 +12,18 @@ from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
 from lib import exceptions
 from lib.database_setup import User
 
+path = "{}/config".format(os.path.realpath('.'))
+google_config = json.load(open("{}/google.json".format(path)))
+facebook_config = json.load(open("{}/facebook.json".format(path)))
 
-FACEBOOK_ID = "860829713952701"
-FACEBOOK_SECRET = "0f30a94e8f8a857dd1d92a408dc96f7a"
-GOOGLE_ID = "271058424614-k1icmfnvp1msujq6tbn6oehmjrtnksgn.apps.googleusercontent.com"
+FACEBOOK_ID = facebook_config["id"]
+FACEBOOK_SECRET = facebook_config["secret"]
+GOOGLE_ID = google_config["web"]["client_id"]
 
 
+#Decorator that ensures user is logged in.
+#If user present return it else raise exception
 def ensure_logged_in(func):
-
     @functools.wraps(func)
     def inner(*args, **kwargs):
         user_id = login_session.get("user_id")
@@ -29,17 +34,20 @@ def ensure_logged_in(func):
     return inner
 
 
+#Validates that user created the entity
 def ensure_permission(user, entity):
     if user.id != entity.user_id:
         raise exceptions.Unauthorized()
 
 
+#Creates an Unique ID for session
 def state_generator():
     uid = "".join(random.choice(string.ascii_uppercase + string.digits)
                   for i in xrange(32))
     return uid
 
 
+#Oauth 2 Google login
 def connect_user_through_google(request):
     # Validate state token
     if request.args.get("state") != login_session["state"]:
@@ -66,6 +74,7 @@ def connect_user_through_google(request):
            % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, "GET")[1])
+
     # If there was an error in the access token info, abort.
     if result.get("error") is not None:
         response = make_response(json.dumps(result.get("error")), 500)
@@ -80,27 +89,24 @@ def connect_user_through_google(request):
         return response
 
     # Verify that the access token is valid for this app.
-    if result["issued_to"] != "271058424614-k1icmfnvp1msujq6tbn6oehmjrtnksgn.apps.googleusercontent.com":
+    if result["issued_to"] != GOOGLE_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
         response.headers["Content-Type"] = "application/json"
         return response
 
+    # Verify that user isn't already connected
     if login_session.get("access_token") is not None and \
             provider_id == login_session.get("provider_id"):
         response = make_response(json.dumps("Current user is already connected."), 200)
         response.headers["Content-Type"] = "application/json"
         return response
 
-    # Store the access token in the session for later use.
-
     # Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {"access_token": credentials.access_token, "alt": "json"}
-    answer = requests.get(userinfo_url, params=params)
-
-    data = answer.json()
-
+    response = requests.get(userinfo_url, params=params)
+    data = response.json()
 
     # see if user exists, if it doesn"t make a new one
     user = User.findone(email=data["email"])
@@ -116,6 +122,7 @@ def connect_user_through_google(request):
 
 
 
+#Oauth 2 Facebook login
 def connect_user_through_facebook(request):
 
     if request.args.get("state") != login_session["state"]:
@@ -165,7 +172,7 @@ def connect_user_through_facebook(request):
     login_session["access_token"] = stored_token
 
 
-
+#Delete Oauth 2 Google permissions
 def disconnect_user_through_facebook():
     provider_id = login_session["provider_id"]
     access_token = login_session["access_token"]
@@ -174,6 +181,7 @@ def disconnect_user_through_facebook():
     result = h.request(url, "DELETE")[1]
 
 
+#Delete Oauth 2 Facebook permissions
 def disconnect_user_through_google():
     access_token = login_session.get("access_token")
     url = "https://accounts.google.com/o/oauth2/revoke?token=%s" % access_token

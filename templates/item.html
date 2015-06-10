@@ -1,14 +1,16 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <div>
+<div class="col-{% if data.picture %}9{% else %}12{% endif %}">
       <p><h2>{{ data.name }}</h2></p>
     <p>{{ data.description }}</p>
-    {% if data.picture %}
-    <p><img src="/{{data.picture}}"></p>
-    {% endif %}
     {% if data.user_id == sess.user_id %}
     <p><a href="/item/{{ data.id }}/edit/">Edit</a> | <a href="/item/{{ data.id }}/delete/">Delete</a></p>
+    {% endif %}
+  </div>
+  <div class="col-3">
+    {% if data.picture %}
+    <img id="view_pic" src="/{{data.picture}}">
     {% endif %}
   </div>
 

@@ -1,11 +1,12 @@
 import os
 import sys
-from flask import Flask, jsonify
+from flask import Flask, redirect
 from flask import session as login_session
 
 from paths import ROUTES
 from lib.session import state_generator
 from lib.exceptions import APPException
+
 
 
 #Add current path to sys paths
@@ -26,9 +27,9 @@ for methods, path, func in ROUTES:
 #Add exception handler
 @app.errorhandler(APPException)
 def exception_handler(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+    BASE_URL = "/error?code={}&message={}"
+    url = BASE_URL.format(error.status_code, error.message)
+    return redirect(url)
 
 
 #Send session with every request

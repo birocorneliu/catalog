@@ -1,13 +1,24 @@
 import os
+import sys
+LOCAL_PATH = os.path.realpath('.')
+sys.path.append(LOCAL_PATH)
+
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, Column, ForeignKey, Integer, String, desc
+from sqlalchemy import create_engine, desc, Column, ForeignKey, Integer, String
+
 from lib import exceptions
 
+
+#Declare Base with helper methods
 Base = declarative_base()
 class DBHelper(object):
     PATH = "static/uploaded/{}_{}"
-    IMAGE_PATH = "{}/{}".format(os.path.realpath('.'), PATH)
+    IMAGE_PATH = "{}/{}".format(LOCAL_PATH, PATH)
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    picture = Column(String(250))
 
     @classmethod
     def all(cls, limit=None):
@@ -29,9 +40,7 @@ class DBHelper(object):
     @classmethod
     def findone(cls, **kwargs):
         response = cls.find(**kwargs)
-        if not response:
-            raise exceptions.EntityNotFound(cls().__class__.__name__)
-        return response[0]
+        return response[0] if response else None
 
     def get(self):
         response = db_session.query(self.__class__).get(self.id)
@@ -68,31 +77,22 @@ class DBHelper(object):
 
 
 
+#Declare User model
 class User(Base, DBHelper):
     __tablename__ = "user"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
     email = Column(String(250), unique=True)
-    picture = Column(String(250))
 
 
+#Declare Category model
 class Category(Base, DBHelper):
     __tablename__ = "category"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    picture = Column(String(250))
     user_id = Column(Integer, ForeignKey("user.id"))
 
 
+#Declare Item model
 class Item(Base, DBHelper):
     __tablename__ = "item"
-
-    id = Column(Integer, primary_key = True)
-    name =Column(String(80), nullable = False)
     description = Column(String(250))
-    picture = Column(String(250))
     category_id = Column(Integer, ForeignKey("category.id"))
     user_id = Column(Integer, ForeignKey("user.id"))
     category = relationship(Category)
@@ -103,6 +103,8 @@ class Item(Base, DBHelper):
         response["category"] = self.category.to_dict()
         return response
 
+
+#Start engine, session and create db if not exists
 engine = create_engine("sqlite:///catalog.db")
 Base.metadata.create_all(engine)
 Base.metadata.bind = engine

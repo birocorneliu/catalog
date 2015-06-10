@@ -38,6 +38,11 @@
 #body-right{
     padding-left: 20px;
 }
+#view_pic {
+    width: 100%;
+    padding-top: 70px;
+    padding-left: 10px;
+}
 p {
 }
 a {
